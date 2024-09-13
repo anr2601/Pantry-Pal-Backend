@@ -8,7 +8,6 @@ const login = async (req, res) => {
   try {
 
     console.log("Logging in....");
-    console.log(req.body)
     const user = await User.findOne({ username });
 
     if (!user) {
@@ -25,7 +24,6 @@ const login = async (req, res) => {
     const us = {username:user.username, password:user.password};
     const accessToken = jwt.sign(us, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
 
-    console.log(accessToken);
 
     return res.status(200).json({ message: 'Login successful', accessToken });
   } catch (error) {
@@ -38,7 +36,6 @@ const signup = async (req, res) => {
 
   try {
 
-    console.log(req.body)
     const existingUser = await User.findOne({ username });
 
     if (existingUser) {
