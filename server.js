@@ -21,12 +21,6 @@ mongoose.connect('mongodb+srv://arx3198:anshuman123@ingredients.vuzz7q6.mongodb.
 app.use('/api', authRoutes);
 app.use('/api', allergyRoutes);
 
-app.post('/chatapi', (req, res) => {
-  const message = req.body.message;
-
-  // Get the Hugging Face API key from the environment variables
-  const huggingFaceApiKey = process.env.HUGGING_FACE_API_KE
-
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
