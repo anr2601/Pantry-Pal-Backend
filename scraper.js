@@ -10,7 +10,7 @@ async function scrapeIngredients(url) {
   try {
 
     console.log("Running the scrape function");
-    const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] }); 
+    const browser = await puppeteer.launch({ executablePath: '/usr/bin/chromium',headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] }); 
     const page = await browser.newPage(); // Open a new page
     await page.goto(url, { waitUntil: 'networkidle2' }); // Go to the product page
 
