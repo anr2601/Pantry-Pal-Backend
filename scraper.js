@@ -10,8 +10,9 @@ async function scrapeIngredients(url) {
   try {
 
     console.log("Running the scrape function");
-    const browser = await puppeteer.launch({ executablePath: '/usr/bin/chromium',headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] }); 
+    const browser = await puppeteer.launch({headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] }); 
     const page = await browser.newPage(); // Open a new page
+    console.log("Navigating to amazon");
     await page.goto(url, { waitUntil: 'networkidle2' }); // Go to the product page
 
     // Use the specific selector to scrape ingredients from the 'Product Information' section #productDetails_techSpec_section_1 > tbody > tr:nth-child(5) > td
@@ -30,7 +31,7 @@ async function scrapeIngredients(url) {
     
     return ingredientsText; // Fallback if the ingredients are not found 
     });
-    console.log("ingre: ",ingredients);
+    console.log("ingredients found after scraping: ",ingredients);
     return ingredients;
      // Print the ingredients
     await browser.close(); // Close the browser
