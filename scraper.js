@@ -8,6 +8,8 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 async function scrapeIngredients(url) {
   try {
+
+    console.log("Running the scrape function");
     const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] }); 
     const page = await browser.newPage(); // Open a new page
     await page.goto(url, { waitUntil: 'networkidle2' }); // Go to the product page
