@@ -21,6 +21,8 @@ async function scrapeIngredients(url) {
     let ingredientsText = 'Ingredients not listed';
 
     rows.forEach((row) => {
+
+      console.log("Scraping in the site...")
       const header = row.querySelector('th'); // Find the header in the row
       const data = row.querySelector('td');   // Find the data cell in the row
 
