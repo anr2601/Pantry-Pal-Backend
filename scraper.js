@@ -24,7 +24,8 @@ async function scrapeIngredients(url) {
       const header = row.querySelector('th'); // Find the header in the row
       const data = row.querySelector('td');   // Find the data cell in the row
 
-      if (header && header.innerText.toLowerCase().includes('ingredients')) {
+      if (header && header.innerText.includes('ingredients')) {
+        console.log(data+" .. / ");
         ingredientsText = data ? data.innerText.trim() : 'Ingredients not found';
       }
     });
