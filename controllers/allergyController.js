@@ -106,8 +106,8 @@ const scraper =  async (req, res) => {
       
 
       console.log("User found");
-      console.log(user)
-      console.log(user.allergies)
+      console.log(user.username);
+      console.log(user.allergies);
 
 
     if (!amazonUrl) {
@@ -128,6 +128,8 @@ const scraper =  async (req, res) => {
 
       console.log("Trimmed Ingredients",ingredients);
       console.log("Current User Allergies: ", user.allergies)
+
+      console.log("Fetching matching allergies...");
 
     // Get allergen matches from Hugging Face
     const matchedAllergies = await getAllergenMatches(ingredients, user.allergies);
