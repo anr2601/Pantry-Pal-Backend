@@ -17,22 +17,20 @@ async function scrapeIngredients(url) {
 
     // Use the specific selector to scrape ingredients from the 'Product Information' section #productDetails_techSpec_section_1 > tbody > tr:nth-child(5) > td
     const ingredients = await page.evaluate(() => {
-      const rows = document.querySelectorAll('#productDetails_techSpec_section_1 tr');
-    let ingredientsText = 'Ingredients not listed';
+      const rows = document.querySelectorAll('#productDetails_techSpec_section_1 > tbody > tr');
+      
+      // Iterate through each row to find ingredients
+      let ingredientsText = 'Ingredients not listed';
+      rows.forEach(row => {
+        const header = row.querySelector('th'); // Find the header in the row
+        const data = row.querySelector('td');   // Find the data cell in the row
 
-    rows.forEach((row) => {
+        if (header && header.innerText.toLowerCase().includes('ingredients')) {
+          ingredientsText = data ? data.innerText.trim() : 'Ingredients not found';
+        }
+      });
 
-      console.log("Scraping in the site...")
-      const header = row.querySelector('th'); // Find the header in the row
-      const data = row.querySelector('td');   // Find the data cell in the row
-
-      if (header && header.innerText.includes('ingredients')) {
-        console.log(data+" .. / ");
-        ingredientsText = data ? data.innerText.trim() : 'Ingredients not found';
-      }
-    });
-    
-    return ingredientsText; // Fallback if the ingredients are not found 
+      return ingredientsText;// Fallback if the ingredients are not found
     });
     console.log("ingredients found after scraping: ",ingredients);
     return ingredients;
