@@ -43,6 +43,7 @@ async function getIngredients(url) {
 
   // Rotate through proxies
     try {
+      console.log("Scraping now...");
       const ingredients = await scrapeIngredients(url);
       console.log("Ingredients: ", ingredients)
       return ingredients;

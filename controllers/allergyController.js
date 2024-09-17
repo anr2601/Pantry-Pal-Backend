@@ -114,6 +114,9 @@ const scraper =  async (req, res) => {
       return res.status(400).send('Amazon URL is required.');
     }
 
+    console.log(amazonUrl);
+    console.log("Fetching ingredients from the product...");
+
   
     // Get ingredients from the scraper
     const ingredientsText = await getIngredients(amazonUrl);
