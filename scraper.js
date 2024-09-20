@@ -25,7 +25,7 @@ async function scrapeIngredients(url) {
     );
     console.log("Navigating to amazon");
     
-    await page.goto(url, { waitUntil: 'networkidle2' }); // Go to the product page
+    await page.goto(url, { waitUntil: 'networkidle2', timeout: 0  }); // Go to the product page
     const content = await page.content();
     console.log(content)
 
