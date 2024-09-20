@@ -13,6 +13,24 @@ async function scrapeIngredients(url) {
     const browser = await puppeteer.launch({headless: true, 
       args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--disable-accelerated-2d-canvas', '--disable-gpu']});  
     const page = await browser.newPage(); // Open a new page
+
+
+    // Set request interception to block unwanted resources
+    await page.setRequestInterception(true);
+
+    // Intercept and block non-essential resources
+    page.on('request', (request) => {
+      const resourceType = request.resourceType();
+
+      // Block images, stylesheets, fonts, media, etc.
+      if (['image', 'stylesheet', 'font', 'media', 'other'].includes(resourceType)) {
+        request.abort(); // Abort the request
+      } else {
+        request.continue(); // Allow only essential resources like scripts and documents
+      }
+    });
+
+    
     console.log("Setting request headers");
     await page.setExtraHTTPHeaders({
       'Accept-Language': 'en-US,en;q=0.9',
