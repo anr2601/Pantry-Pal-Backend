@@ -47,29 +47,28 @@ async function scrapeIngredients(url) {
     // const content = await page.content();
     // console.log(content)
 
-    // Use the specific selector to scrape ingredients from the 'Product Information' section #productDetails_techSpec_section_1 > tbody > tr:nth-child(5) > td
-    // Scrape product information from the page
-    const productInfo = await page.evaluate(() => {
-      const rows = document.querySelectorAll('#productDetails_techSpec_section_1 tr');
-      let productDetails = {};
+    // Use page.evaluate to scrape ingredients from the specified section
+    const ingredients = await page.evaluate(() => {
+      const rows = document.querySelectorAll('#productDetails_techSpec_section_1 > tbody > tr');
+      let ingredientsText = 'Ingredients not found';
 
+      // Loop through each row to find the ingredients
       rows.forEach((row) => {
         const header = row.querySelector('th');
         const data = row.querySelector('td');
 
-        if (header && data) {
-          const key = header.innerText.trim();
-          const value = data.innerText.trim();
-          productDetails[key] = value;
+        // Check if the header includes 'ingredients'
+        if (header && header.innerText.toLowerCase().includes('ingredients')) {
+          ingredientsText = data ? data.innerText.trim() : 'Ingredients not found';
         }
       });
 
-      return productDetails;
+      return ingredientsText; // Return the found ingredients or fallback message
     });
 
-    console.log('Product Information:', productInfo);
+    console.log('Ingredients:', ingredients); // Print the ingredients
     await browser.close();
-    return productInfo;
+    return ingredients;
   } catch (error) {
     console.error('Error scraping ingredients:', error);
   }
