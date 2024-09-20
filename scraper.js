@@ -13,7 +13,18 @@ async function scrapeIngredients(url) {
     const browser = await puppeteer.launch({headless: true, 
       args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--disable-accelerated-2d-canvas', '--disable-gpu']});  
     const page = await browser.newPage(); // Open a new page
+    console.log("Setting request headers");
+    await page.setExtraHTTPHeaders({
+      'Accept-Language': 'en-US,en;q=0.9',
+      'Referer': 'https://www.amazon.com/',
+      'Accept-Encoding': 'gzip, deflate, br',
+      'Connection': 'keep-alive',
+    });
+    await page.setUserAgent(
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36'
+    );
     console.log("Navigating to amazon");
+    
     await page.goto(url, { waitUntil: 'networkidle2' }); // Go to the product page
     const content = await page.content();
     console.log(content)
