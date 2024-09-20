@@ -48,26 +48,28 @@ async function scrapeIngredients(url) {
     console.log(content)
 
     // Use the specific selector to scrape ingredients from the 'Product Information' section #productDetails_techSpec_section_1 > tbody > tr:nth-child(5) > td
-    const ingredients = await page.evaluate(() => {
-      const rows = document.querySelectorAll('#productDetails_techSpec_section_1 > tbody > tr');
-      
-      // Iterate through each row to find ingredients
-      let ingredientsText = 'Ingredients not listed';
-      rows.forEach(row => {
-        const header = row.querySelector('th'); // Find the header in the row
-        const data = row.querySelector('td');   // Find the data cell in the row
+    // Scrape product information from the page
+    const productInfo = await page.evaluate(() => {
+      const rows = document.querySelectorAll('#productDetails_techSpec_section_1 tr');
+      let productDetails = {};
 
-        if (header && header.innerText.toLowerCase().includes('ingredients')) {
-          ingredientsText = data ? data.innerText.trim() : 'Ingredients not found';
+      rows.forEach((row) => {
+        const header = row.querySelector('th');
+        const data = row.querySelector('td');
+
+        if (header && data) {
+          const key = header.innerText.trim();
+          const value = data.innerText.trim();
+          productDetails[key] = value;
         }
       });
 
-      return ingredientsText;// Fallback if the ingredients are not found
+      return productDetails;
     });
-    console.log("ingredients found after scraping: ",ingredients);
-    return ingredients;
-     // Print the ingredients
-    await browser.close(); // Close the browser
+
+    console.log('Product Information:', productInfo);
+    await browser.close();
+    return productInfo;
   } catch (error) {
     console.error('Error scraping ingredients:', error);
   }
