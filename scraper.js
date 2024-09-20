@@ -44,8 +44,8 @@ async function scrapeIngredients(url) {
     console.log("Navigating to amazon");
     
     await page.goto(url, { waitUntil: 'networkidle2', timeout: 0  }); // Go to the product page
-    const content = await page.content();
-    console.log(content)
+    // const content = await page.content();
+    // console.log(content)
 
     // Use the specific selector to scrape ingredients from the 'Product Information' section #productDetails_techSpec_section_1 > tbody > tr:nth-child(5) > td
     // Scrape product information from the page
