@@ -1,7 +1,7 @@
 FROM node:18-slim
 
 
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = true /
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = true \
 RUN apt-get update && \
   apt-get install -y \ 
   ca-certificates \ 
